@@ -7,11 +7,30 @@ router.get('/new', (req, res) => {
   res.render('users/new.ejs');
 });
 
+// Index route
+router.get('/', (req, res) => {
+    User.find({}, (error, users) => {
+        res.render("users/index.ejs", {users})
+    })
+  });
+
 // ADD EMPTY FORM TO USER SHOW PAGE TO ADD TWEET TO A USER
 router.get('/:userId', (req, res) => {
     // find user in db by id and add new tweet
     User.findById(req.params.userId, (error, user) => {
       res.render('users/show.ejs', { user });
+    });
+  });
+
+  router.delete('/:userId', (req, res) => {
+    console.log('DELETE user');
+    // set the value of the user and tweet ids
+    const userId = req.params.userId;
+
+    // find user in db by id
+    User.findById(userId, (err, foundUser) => {
+      foundUser.remove();
+        res.redirect('/users');
     });
   });
 
@@ -86,5 +105,5 @@ router.post('/:userId/tweets', (req, res) => {
     });
   });
 
-  
+
 module.exports = router;
