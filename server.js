@@ -20,6 +20,9 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+   
+// ABOVE our app.get()
+app.use('/users', require('./controllers/usersController'));
 
 app.get('/', (req, res) => {
   res.render('home.ejs');
